@@ -22,7 +22,9 @@ const handleSearch = () => {
     clearTimeout(searchTerm.timeout)
     searchTerm.timeout = setTimeout(async () => {
         if(searchTerm.query !== '') {
-          const res = await fetch(`http://api.weatherapi.com/v1/search.json?key=34abfc2fda594c68baa31412240504&q=${searchTerm.query}`)
+          const res = await fetch(`http://api.weatherapi.com/v1/search.json?key=34abfc2fda594c68baa31412240504&q=${searchTerm.query}`, {
+            referrerPolicy: "unsafe-url"
+          })
           searchTerm.results = await res.json()
         } else {
           searchTerm.results = null
@@ -31,7 +33,9 @@ const handleSearch = () => {
 }
 
 const getWeather = async (id: string) => {
-    const res = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=34abfc2fda594c68baa31412240504&q=id:${id}&days=3&aqi=no&alerts=no`)
+    const res = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=34abfc2fda594c68baa31412240504&q=id:${id}&days=3&aqi=no&alerts=no`, {
+      referrerPolicy: "unsafe-url"
+    })
     const data = await res.json()
     emits('place-data', data)
 
