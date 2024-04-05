@@ -1,18 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Ref } from 'vue';
 import WeatherCard from '@/components/WeatherCard.vue'
 import SearchInput from '@/components/SearchInput.vue'
+import type { WeatherData } from '@/types/weather'
 
-interface Place {
-  location: {
-    name: string;
-  };
-}
+const places = ref<WeatherData[]>([]) // Menggunakan tipe Place yang didefinisikan secara global
 
-const places: Ref<Place[]> = ref([])
-
-const addPlace = (data: Place) => {
+const addPlace = (data: WeatherData) => {
   places.value.push(data)
 }
 
@@ -41,7 +35,7 @@ const deletePlace = (name: string) => {
 
     <div class="grid grid-cols-2 gap-4">
       <div v-for="(place, idx) in places" :key="idx">
-        <WeatherCard :place="place as Place" @delete-place="deletePlace" />
+        <WeatherCard :place="place" @delete-place="deletePlace" />
       </div>
     </div>
   </main>
