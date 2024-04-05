@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
@@ -6,9 +6,15 @@ import { reactive } from 'vue'
 
 const emits = defineEmits(['place-data'])
 
-const searchTerm = reactive({
+interface SearchTerm {
+    query: string
+    timeout: number | undefined
+    results: any
+}
+
+const searchTerm: SearchTerm = reactive({
     query: '',
-    timeout: null,
+    timeout: undefined,
     results: null
 })
 
@@ -24,7 +30,7 @@ const handleSearch = () => {
     }, 500)
 }
 
-const getWeather = async (id) => {
+const getWeather = async (id: string) => {
     const res = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=34abfc2fda594c68baa31412240504&q=id:${id}&days=3&aqi=no&alerts=no`)
     const data = await res.json()
     emits('place-data', data)
@@ -56,7 +62,7 @@ const getWeather = async (id) => {
       <div v-if="searchTerm.results !== null">
         <div v-for="place in searchTerm.results" :key="place.id">
           <button @click="getWeather(place.id)" class="px-3 my-2 hover:text-indigo-600 hover:font-bold w-full text-left">
-            {{ place.name }}, {{ place.region }}, {{ place.country }}
+            {{ place.name }}, {{ place.region }}
           </button>
         </div>
       </div>

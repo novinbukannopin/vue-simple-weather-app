@@ -1,7 +1,20 @@
-<script setup>
-defineProps({
-  day: Object
-})
+<script setup lang="ts">
+import { defineProps } from 'vue'
+
+interface Day {
+  date: string;
+  day: {
+    condition: {
+      icon: string;
+    };
+    maxtemp_c: number;
+    mintemp_c: number;
+  };
+}
+
+defineProps<{
+  day: Day;
+}>()
 </script>
 
 <template>
@@ -9,7 +22,9 @@ defineProps({
     <table class="w-full">
       <tr>
         <td class="w-1/3">
-          {{ new Date(day.date).toLocaleDateString('en-us', { weekday: 'long' }) }}
+          {{
+            new Date(day.date).toLocaleDateString('en-us', { weekday: 'long' })
+          }}
         </td>
 
         <td class="w-1/3">
